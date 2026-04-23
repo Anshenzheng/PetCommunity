@@ -1,0 +1,187 @@
+@use '@angular/material' as mat;
+
+:root {
+  --primary-color: #FF9A8B;
+  --primary-light: #FFD5CC;
+  --primary-dark: #FF7B6B;
+  --accent-color: #FFECD2;
+  --accent-light: #FFF8E7;
+  --warm-bg: #FFF5E6;
+  --warm-card: #FFFFFF;
+  --text-primary: #4A3728;
+  --text-secondary: #7A6B5D;
+  --text-light: #A89A8D;
+  --success-color: #8BC34A;
+  --warning-color: #FFB74D;
+  --error-color: #EF5350;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--warm-bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+html, body {
+  height: 100%;
+}
+
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-stroked-button {
+  border-radius: 25px !important;
+}
+
+.mat-mdc-card {
+  border-radius: 20px !important;
+  box-shadow: 0 4px 20px rgba(255, 154, 139, 0.15) !important;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-dialog-container {
+  border-radius: 20px !important;
+}
+
+.warm-button {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%) !important;
+  color: white !important;
+}
+
+.warm-button:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%) !important;
+}
+
+.accent-button {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%) !important;
+  color: var(--text-primary) !important;
+}
+
+.page-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-hover {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(255, 154, 139, 0.25) !important;
+}
+
+.status-available {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+}
+
+.status-pending {
+  background-color: #FFF3E0;
+  color: #E65100;
+}
+
+.status-adopted {
+  background-color: #FFEBEE;
+  color: #C62828;
+}
+
+.status-approved {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+}
+
+.status-rejected {
+  background-color: #FFEBEE;
+  color: #C62828;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+  background: white;
+}
+
+.favorite-btn .mat-icon {
+  color: var(--primary-color);
+  font-size: 22px;
+}
+
+.favorite-btn.active .mat-icon {
+  color: #EF5350;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-light);
+}
+
+.empty-state .mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--accent-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
