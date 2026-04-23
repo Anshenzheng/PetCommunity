@@ -52,4 +52,19 @@ export class PetService {
   deletePet(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  findPendingApprovals(page: number = 0, size: number = 10): Observable<PageResponse<Pet>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<PageResponse<Pet>>('http://localhost:8080/api/admin/pets/pending', { params });
+  }
+
+  approvePet(id: number): Observable<Pet> {
+    return this.http.post<Pet>(`http://localhost:8080/api/admin/pets/${id}/approve`, {});
+  }
+
+  rejectPet(id: number): Observable<any> {
+    return this.http.post(`http://localhost:8080/api/admin/pets/${id}/reject`, {});
+  }
 }

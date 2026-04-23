@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PetService } from '../../services/pet.service';
@@ -500,8 +500,7 @@ export class AdminDashboardComponent implements OnInit {
   loadingApplications = false;
   loadingComments = false;
   
-  reviewForm: FormGroup;
-  reviewControls: Map<number, FormGroup> = new Map();
+  reviewControls: Map<number, FormControl> = new Map();
 
   constructor(
     private petService: PetService,
@@ -509,9 +508,7 @@ export class AdminDashboardComponent implements OnInit {
     private commentService: CommentService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
-  ) {
-    this.reviewForm = this.fb.group({});
-  }
+  ) { }
 
   ngOnInit(): void {
     this.loadPendingPets();
@@ -519,11 +516,9 @@ export class AdminDashboardComponent implements OnInit {
     this.loadPendingComments();
   }
 
-  getReviewControl(appId: number): FormGroup {
+  getReviewControl(appId: number): FormControl {
     if (!this.reviewControls.has(appId)) {
-      this.reviewControls.set(appId, this.fb.group({
-        comment: ['']
-      }));
+      this.reviewControls.set(appId, this.fb.control(''));
     }
     return this.reviewControls.get(appId)!;
   }
@@ -595,8 +590,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   approveApplication(app: AdoptionApplication): void {
-    const reviewForm = this.getReviewControl(app.id);
-    const comment = reviewForm.value.comment;
+    const reviewControl = this.getReviewControl(app.id);
+    const comment = reviewControl.value;
     
     this.adoptionService.approveApplication(app.id, comment).subscribe({
       next: () => {
@@ -607,8 +602,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   rejectApplication(app: AdoptionApplication): void {
-    const reviewForm = this.getReviewControl(app.id);
-    const comment = reviewForm.value.comment;
+    const reviewControl = this.getReviewControl(app.id);
+    const comment = reviewControl.value;
     
     this.adoptionService.rejectApplication(app.id, comment).subscribe({
       next: () => {
