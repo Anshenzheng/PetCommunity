@@ -21,7 +21,10 @@ import { AdoptionDialogComponent } from '../../components/adoption-dialog/adopti
         <div class="image-section">
           <div class="main-image">
             <img [src]="getMainPhoto()" alt="{{ pet.name }}" />
-            <div class="favorite-btn" [class.active]="isFavorited" (click)="toggleFavorite()">
+            <div class="favorite-btn" 
+                 [class.active]="isFavorited" 
+                 (click)="toggleFavorite()"
+                 *ngIf="authService.isLoggedIn() && !authService.isAdmin()">
               <mat-icon>{{ isFavorited ? 'favorite' : 'favorite_border' }}</mat-icon>
             </div>
             <div class="status-badge" [class]="'status-' + pet.status.toLowerCase()">

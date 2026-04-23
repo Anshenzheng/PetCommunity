@@ -21,6 +21,11 @@ public class FavoriteService {
     @Transactional
     public Favorite toggleFavorite(Long petId) {
         User currentUser = userService.getCurrentUser();
+        
+        if (User.Role.ADMIN.equals(currentUser.getRole())) {
+            throw new RuntimeException("管理员身份不可收藏宠物");
+        }
+        
         Pet pet = petService.findById(petId);
         
         if (favoriteRepository.existsByUserAndPet(currentUser, pet)) {
