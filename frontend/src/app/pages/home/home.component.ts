@@ -21,7 +21,7 @@ import { Pet, PageResponse } from '../../models/pet.model';
           </div>
         </div>
         <div class="hero-image">
-          <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=warm%20and%20cozy%20scene%20with%20cute%20dogs%20and%20cats%20playing%20together%2C%20sunset%20warm%20lighting%2C%20soft%20pastel%20colors%2C%20peaceful%20home%20environment&image_size=landscape_16_9" alt="hero" />
+          <img src="https://picsum.photos/seed/petcommunity/800/500" alt="hero" />
         </div>
       </div>
       

@@ -566,7 +566,16 @@ export class AdminDashboardComponent implements OnInit {
     if (pet.photos && pet.photos.length > 0) {
       return pet.photos[0];
     }
-    return `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent('cute ' + pet.species)}&image_size=square_hd`;
+    const species = pet.species ? pet.species.toLowerCase() : 'cat';
+    const seed: Record<string, number> = {
+      'dog': 237,
+      'cat': 40,
+      '兔子': 158,
+      '仓鼠': 102,
+      '其他': 169
+    };
+    const imageSeed = seed[species] || seed['cat'];
+    return `https://picsum.photos/seed/${imageSeed}${pet.id % 100}/400/400`;
   }
 
   approvePet(pet: Pet): void {
