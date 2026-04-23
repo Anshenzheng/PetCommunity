@@ -193,14 +193,15 @@ export class PetCardComponent implements OnInit {
 
   getDefaultImage(): string {
     const species = this.pet.species ? this.pet.species.toLowerCase() : 'cat';
-    const prompts: Record<string, string> = {
-      'dog': 'a cute golden retriever puppy looking happy and friendly, warm soft lighting, pastel background, professional pet photography',
-      'cat': 'a cute orange tabby cat sitting comfortably, warm cozy atmosphere, soft lighting, pet portrait',
-      '兔子': 'a cute fluffy bunny with soft fur, pastel background, warm lighting, pet photography',
-      '仓鼠': 'a cute golden hamster sitting in a tiny cup, warm lighting, cute pet portrait'
+    const seed: Record<string, number> = {
+      'dog': 237,
+      'cat': 40,
+      '兔子': 158,
+      '仓鼠': 102,
+      '其他': 169
     };
-    const prompt = prompts[species] || prompts['cat'];
-    return `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(prompt)}&image_size=square_hd`;
+    const imageSeed = seed[species] || seed['cat'];
+    return `https://picsum.photos/seed/${imageSeed}${this.pet.id % 100}/400/400`;
   }
 
   getStatusText(): string {

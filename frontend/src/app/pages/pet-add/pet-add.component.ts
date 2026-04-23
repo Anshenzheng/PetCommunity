@@ -413,14 +413,15 @@ export class PetAddComponent implements OnInit {
   }
 
   getDefaultImage(species: string): string {
-    const prompts: Record<string, string> = {
-      '狗': 'cute dog looking happy, warm lighting, pet portrait',
-      '猫': 'cute cat sitting comfortably, warm cozy atmosphere',
-      '兔子': 'cute fluffy bunny, soft lighting, pastel background',
-      '仓鼠': 'cute golden hamster, warm lighting'
+    const seed: Record<string, number> = {
+      '狗': 237,
+      '猫': 40,
+      '兔子': 158,
+      '仓鼠': 102,
+      '其他': 169
     };
-    const prompt = prompts[species] || prompts['猫'];
-    return `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(prompt)}&image_size=square_hd`;
+    const imageSeed = seed[species] || seed['猫'];
+    return `https://picsum.photos/seed/${imageSeed}/400/400`;
   }
 
   goBack(): void {

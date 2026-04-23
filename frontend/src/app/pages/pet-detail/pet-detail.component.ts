@@ -414,8 +414,16 @@ export class PetDetailComponent implements OnInit {
   }
 
   getDefaultImage(): string {
-    const prompt = 'a cute ' + (this.pet.species || 'cat') + ' looking happy, warm lighting, professional pet photography';
-    return `https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${encodeURIComponent(prompt)}&image_size=square_hd`;
+    const species = this.pet.species ? this.pet.species.toLowerCase() : 'cat';
+    const seed: Record<string, number> = {
+      'dog': 237,
+      'cat': 40,
+      '兔子': 158,
+      '仓鼠': 102,
+      '其他': 169
+    };
+    const imageSeed = seed[species] || seed['cat'];
+    return `https://picsum.photos/seed/${imageSeed}${this.pet.id % 100}/600/600`;
   }
 
   getStatusText(): string {
