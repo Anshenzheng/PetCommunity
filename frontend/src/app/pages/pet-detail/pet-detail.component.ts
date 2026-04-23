@@ -371,7 +371,7 @@ export class PetDetailComponent implements OnInit {
     private router: Router,
     private petService: PetService,
     private favoriteService: FavoriteService,
-    private authService: AuthService,
+    public authService: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) { }

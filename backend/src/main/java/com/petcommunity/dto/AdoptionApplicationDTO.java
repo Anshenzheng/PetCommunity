@@ -3,6 +3,7 @@ package com.petcommunity.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class AdoptionApplicationDTO {
