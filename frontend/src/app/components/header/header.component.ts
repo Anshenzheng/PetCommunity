@@ -18,7 +18,7 @@ import { User } from '../../models/user.model';
             <mat-icon>home</mat-icon>
             首页
           </a>
-          <a mat-button [routerLink]="['/favorites']" routerLinkActive="active-link" *ngIf="authService.isLoggedIn()">
+          <a mat-button [routerLink]="['/favorites']" routerLinkActive="active-link" *ngIf="authService.isLoggedIn() && !authService.isAdmin()">
             <mat-icon>favorite</mat-icon>
             我的收藏
           </a>
@@ -37,7 +37,7 @@ import { User } from '../../models/user.model';
         </ng-container>
         
         <ng-template #loggedIn>
-          <button mat-raised-button class="add-pet-btn" [routerLink]="['/pet-add']">
+          <button mat-raised-button class="add-pet-btn" [routerLink]="['/pet-add']" *ngIf="!authService.isAdmin()">
             <mat-icon>add</mat-icon>
             发布宠物
           </button>
@@ -56,18 +56,20 @@ import { User } from '../../models/user.model';
               <mat-icon>person</mat-icon>
               个人中心
             </button>
-            <button mat-menu-item [routerLink]="['/my-pets']">
-              <mat-icon>pets</mat-icon>
-              我的宠物
-            </button>
-            <button mat-menu-item [routerLink]="['/my-applications']">
-              <mat-icon>assignment</mat-icon>
-              我的申请
-            </button>
-            <button mat-menu-item [routerLink]="['/favorites']">
-              <mat-icon>favorite</mat-icon>
-              我的收藏
-            </button>
+            <ng-container *ngIf="!authService.isAdmin()">
+              <button mat-menu-item [routerLink]="['/my-pets']">
+                <mat-icon>pets</mat-icon>
+                我的宠物
+              </button>
+              <button mat-menu-item [routerLink]="['/my-applications']">
+                <mat-icon>assignment</mat-icon>
+                我的申请
+              </button>
+              <button mat-menu-item [routerLink]="['/favorites']">
+                <mat-icon>favorite</mat-icon>
+                我的收藏
+              </button>
+            </ng-container>
             <ng-container *ngIf="authService.isAdmin()">
               <mat-divider></mat-divider>
               <button mat-menu-item [routerLink]="['/admin']">

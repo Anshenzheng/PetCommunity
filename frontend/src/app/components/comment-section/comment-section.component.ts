@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Comment } from '../../models/comment.model';
 import { CommentService } from '../../services/comment.service';
 import { AuthService } from '../../services/auth.service';
@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
                       formControlName="content"
                       placeholder="分享您的领养经验或咨询宠物详情..."
                       rows="3"></textarea>
-            <mat-error *ngIf="commentForm.get('content')?.hasError('required')">
+            <mat-error *ngIf="commentForm.get('content')?.hasError('required') && commentForm.get('content')?.touched">
               留言内容不能为空
             </mat-error>
           </mat-form-field>
@@ -225,6 +225,7 @@ import { Router } from '@angular/router';
 })
 export class CommentSectionComponent implements OnInit {
   @Input() petId!: number;
+  @ViewChild(FormGroupDirective) formDirective!: FormGroupDirective;
   
   comments: Comment[] = [];
   commentForm: FormGroup;
@@ -265,9 +266,9 @@ export class CommentSectionComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.snackBar.open('留言已提交，等待审核', '关闭', { duration: 3000 });
-        this.commentForm.reset({ content: '' });
-        this.commentForm.markAsUntouched();
-        this.commentForm.markAsPristine();
+        if (this.formDirective) {
+          this.formDirective.resetForm();
+        }
         this.isSubmitting = false;
         this.loadComments();
       },

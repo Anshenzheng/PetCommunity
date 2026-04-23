@@ -24,6 +24,10 @@ public class PetService {
     public Pet createPet(PetDTO dto) {
         User currentUser = userService.getCurrentUser();
         
+        if (User.Role.ADMIN.equals(currentUser.getRole())) {
+            throw new RuntimeException("管理员身份不可发布宠物");
+        }
+        
         Pet pet = new Pet();
         pet.setName(dto.getName());
         pet.setSpecies(dto.getSpecies());
