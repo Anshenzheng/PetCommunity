@@ -30,7 +30,7 @@ import { Pet } from '../../models/pet.model';
                   <mat-icon>close</mat-icon>
                 </button>
               </div>
-              <div class="photo-placeholder" *ngIf="photoUrls.length < 5">
+              <div class="photo-placeholder" *ngIf="photoUrls.length < 5" (click)="fileInput.click()">
                 <mat-icon>add_photo_alternate</mat-icon>
                 <span>点击上传照片</span>
                 <span class="hint">最多5张</span>

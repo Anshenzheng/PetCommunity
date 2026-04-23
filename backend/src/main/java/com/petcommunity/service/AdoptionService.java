@@ -28,6 +28,14 @@ public class AdoptionService {
         User currentUser = userService.getCurrentUser();
         Pet pet = petService.findById(dto.getPetId());
         
+        if (User.Role.ADMIN.equals(currentUser.getRole())) {
+            throw new RuntimeException("管理员身份不可申请领养宠物");
+        }
+        
+        if (pet.getOwner() != null && currentUser.getId().equals(pet.getOwner().getId())) {
+            throw new RuntimeException("您不能领养自己发布的宠物");
+        }
+        
         if (!pet.getApproved()) {
             throw new RuntimeException("该宠物信息尚未审核通过");
         }
