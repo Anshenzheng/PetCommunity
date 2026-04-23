@@ -265,7 +265,9 @@ export class CommentSectionComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.snackBar.open('留言已提交，等待审核', '关闭', { duration: 3000 });
-        this.commentForm.reset();
+        this.commentForm.reset({ content: '' });
+        this.commentForm.markAsUntouched();
+        this.commentForm.markAsPristine();
         this.isSubmitting = false;
         this.loadComments();
       },

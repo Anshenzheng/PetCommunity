@@ -93,13 +93,31 @@ import { AdoptionDialogComponent } from '../../components/adoption-dialog/adopti
           </div>
           
           <div class="action-buttons" *ngIf="authService.isLoggedIn()">
-            <button mat-raised-button 
-                    class="adopt-btn"
-                    [disabled]="pet.status !== 'AVAILABLE'"
-                    (click)="openAdoptionDialog()">
-              <mat-icon>favorite_border</mat-icon>
-              申请领养
-            </button>
+            <ng-container *ngIf="isAdmin">
+              <div class="admin-hint">
+                <mat-icon>admin_panel_settings</mat-icon>
+                <span>管理员身份不可申请领养宠物</span>
+              </div>
+            </ng-container>
+            
+            <ng-container *ngIf="!isAdmin && isOwner">
+              <div class="owner-hint">
+                <mat-icon>info</mat-icon>
+                <span>您不能领养自己发布的宠物</span>
+              </div>
+            </ng-container>
+            
+            <ng-container *ngIf="!isAdmin && !isOwner">
+              <button mat-raised-button 
+                      class="adopt-btn"
+                      [disabled]="pet.status !== 'AVAILABLE'"
+                      (click)="openAdoptionDialog()">
+                <mat-icon>favorite_border</mat-icon>
+                <span *ngIf="pet.status === 'AVAILABLE'">申请领养</span>
+                <span *ngIf="pet.status === 'PENDING'">待审核中</span>
+                <span *ngIf="pet.status === 'ADOPTED'">已被领养</span>
+              </button>
+            </ng-container>
           </div>
           
           <div class="action-buttons" *ngIf="!authService.isLoggedIn()">
@@ -331,6 +349,25 @@ import { AdoptionDialogComponent } from '../../components/adoption-dialog/adopti
       gap: 8px;
     }
     
+    .admin-hint,
+    .owner-hint {
+      width: 100%;
+      height: 56px;
+      font-size: 16px;
+      background: #F5F5F5 !important;
+      color: #7A6B5D !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 8px;
+    }
+    
+    .admin-hint .mat-icon,
+    .owner-hint .mat-icon {
+      color: #A89A8D;
+    }
+    
     @media (max-width: 768px) {
       .detail-content {
         grid-template-columns: 1fr;
@@ -365,6 +402,8 @@ export class PetDetailComponent implements OnInit {
   pet!: Pet;
   currentImageIndex = 0;
   isFavorited = false;
+  isOwner = false;
+  isAdmin = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -389,6 +428,11 @@ export class PetDetailComponent implements OnInit {
         this.pet = pet;
         if (this.authService.isLoggedIn()) {
           this.checkFavorite();
+          this.isAdmin = this.authService.isAdmin();
+          const currentUser = this.authService.currentUserValue;
+          if (currentUser && pet.ownerId) {
+            this.isOwner = currentUser.id === pet.ownerId;
+          }
         }
       },
       error: () => {
@@ -451,6 +495,14 @@ export class PetDetailComponent implements OnInit {
   }
 
   openAdoptionDialog(): void {
+    if (this.isAdmin) {
+      this.snackBar.open('管理员身份不可申请领养宠物', '关闭', { duration: 3000 });
+      return;
+    }
+    if (this.isOwner) {
+      this.snackBar.open('您不能领养自己发布的宠物', '关闭', { duration: 3000 });
+      return;
+    }
     const dialogRef = this.dialog.open(AdoptionDialogComponent, {
       width: '500px',
       data: { petId: this.pet.id, petName: this.pet.name }
